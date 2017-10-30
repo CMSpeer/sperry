@@ -393,7 +393,7 @@ class Window(QtGui.QMainWindow):
         for url in event.mimeData().urls():
             #filenames.append(str(url.encodedPath())[1:])
             filenames.append(str(url.toLocalFile()))
-        for filename in sorted(filenames):
+        for filename in sorted(filenames,reverse=True):
             [file_type, error_text] = params.fileType(filename)
             if (file_type == "parameters"):
                 self.newSettings(filename)
@@ -1228,7 +1228,7 @@ if __name__ == "__main__":
     else:
         setup_name = general_parameters.get("setup_name")
         hardware = params.hardware("xml/" + setup_name + "_hardware.xml")
-        setup_parameters_filename = "xml/" + setup_name + "_default.xml"
+        setup_parameters_filename = "xml/" + setup_name + "toggle_default.xml"
 
     setup_parameters = params.parameters(setup_parameters_filename, True)
 

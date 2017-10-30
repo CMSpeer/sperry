@@ -838,7 +838,7 @@ if __name__ == "__main__":
         print "camera 0 model:", hcam.getModelInfo(0)
 
         # List support properties.
-        if 1:
+        if 0:
             print "Supported properties:"
             props = hcam.getProperties()
             for i, id_name in enumerate(sorted(props.keys())):
@@ -860,8 +860,8 @@ if __name__ == "__main__":
         if 0:
             print hcam.setPropertyValue("exposure_time", 0.001)
 
-            #print hcam.setPropertyValue("subarray_hsize", 2048)
-            #print hcam.setPropertyValue("subarray_vsize", 2048)
+            print hcam.setPropertyValue("subarray_hsize", 2048)
+            print hcam.setPropertyValue("subarray_vsize", 2048)
             print hcam.setPropertyValue("subarray_hpos", 512)
             print hcam.setPropertyValue("subarray_vpos", 512)
             print hcam.setPropertyValue("subarray_hsize", 1024)
@@ -894,7 +894,7 @@ if __name__ == "__main__":
         if 0:
             hcam.startAcquisition()
             cnt = 1
-            for i in range(300):
+            for i in range(10):
                 [frames, dims] = hcam.getFrames()
                 for aframe in frames:
                     print cnt, aframe[0:5]

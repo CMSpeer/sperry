@@ -505,6 +505,10 @@ class SpotCounter(QtGui.QDialog, halModule.HalModule):
         spotc_params.add("threshold", params.ParameterRangeInt("Spot detection threshold (camera counts)",
                                                                "threshold", 250, 1, 10000))
 
+        spotc_params.add("interval", params.ParameterInt("Interval for the spot counter",
+                                                         "interval", 1, is_mutable = True, is_saved = True))
+ 
+
 
         # UI setup.
         self.ui.setupUi(self)

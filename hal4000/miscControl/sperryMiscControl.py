@@ -21,7 +21,7 @@ import sc_library.hdebug as hdebug
 import qtdesigner.hbaic1_misc_ui as miscControlsUi
 
 # Prior filter wheel
-import sc_hardware.prior.prior as prior
+import stagecontrol.sperryStageControl as filterWheel
 
 #
 # Misc Control Dialog Box
@@ -32,8 +32,7 @@ class AMiscControl(miscControl.MiscControl):
         miscControl.MiscControl.__init__(self, parameters, parent)
 
         self.em_filter_pos = 0
-        self.em_filter_wheel = prior.Prior(port = hardware.get("port"),
-                                           baudrate = hardware.get("baud_rate"))
+        self.em_filter_wheel = filterWheel.QPriorFilterWheel()
         
         # Add parameters.
         misc_params = parameters.addSubSection("misc")
@@ -61,8 +60,8 @@ class AMiscControl(miscControl.MiscControl):
             self.ui.okButton.clicked.connect(self.handleQuit)
 
         # setup (emission) filter wheel
-#        self.ui.emFilter6Button.hide()
-#        self.ui.emFilter7Button.hide()
+        self.ui.emFilter5Button.hide()
+        self.ui.emFilter6Button.hide()
 #        self.ui.emFilter8Button.hide()
 #        self.ui.emFilter9Button.hide()
 #        self.ui.emFilter10Button.hide()
@@ -76,7 +75,7 @@ class AMiscControl(miscControl.MiscControl):
             afilter.clicked.connect(self.handleEmFilter)
             afilter.setText(name)
         if self.em_filter_wheel:
-            self.em_filters[self.em_filter_wheel.getFilter()-1][0].click()
+            self.em_filters[self.em_filter_wheel.getPosition(1)-1][0].click()
 
         self.ui.emCheckBox.setChecked(parameters.get("misc.em_checked"))
         self.ui.emSpinBox.setValue(parameters.get("misc.em_period"))
@@ -88,22 +87,34 @@ class AMiscControl(miscControl.MiscControl):
                 afilter[0].setStyleSheet("QPushButton { color: red}")
                 if self.em_filter_wheel:
                     self.em_filter_pos = i
-                    self.em_filter_wheel.changeFilter(i+1)
+                    self.em_filter_wheel.setPosition(i+4, 1)
                 self.parameters.set("misc.em_filter", i)
             else:
                 afilter[0].setStyleSheet("QPushButton { color: black}")
+
+    @hdebug.debug
+    def handleFilter(self, bool):
+        for i, filter in enumerate(self.filters):
+            if filter.isChecked():
+                filter.setStyleSheet("QPushButton { color: red}")
+                if self.filter_wheel:
+                    self.em_filter_pos = i
+                    self.filter_wheel.setPosition(i+1, 1)
+                self.parameters.set("misc.filter_position", i)
+            else:
+                filter.setStyleSheet("QPushButton { color: black}")
 
     def newFrame(self, frame, filming):
         if filming:
             if self.ui.emCheckBox.isChecked():
                 if (((frame.number + 1) % self.ui.emSpinBox.value()) == 0):
                     self.em_filter_pos += 1
-                    self.em_filters[(self.em_filter_pos%5)].click()
+                    self.em_filters[(self.em_filter_pos%4)][0].click()
 
     @hdebug.debug
     def newParameters(self, parameters):
-        self.parameters.em_checked = self.ui.emCheckBox.isChecked()
-        self.parameters.em_period = self.ui.emSpinBox.value()
+        self.parameters.setv("misc.em_checked", self.ui.emCheckBox.isChecked())
+        self.parameters.setv("misc.em_period", self.ui.emSpinBox.value())
 
         self.parameters = parameters
 
@@ -113,7 +124,7 @@ class AMiscControl(miscControl.MiscControl):
 
     def startFilm(self, film_name, run_shutters):
         if self.ui.emCheckBox.isChecked():        
-            self.em_filters[0].click()
+            self.em_filters[0][0].click()
 
 #
 # The MIT License

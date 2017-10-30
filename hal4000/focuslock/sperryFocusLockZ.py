@@ -34,24 +34,32 @@ class AFocusLockZ(focusLockZ.FocusLockZCam):
         lock_params = parameters.addSubSection("focuslock")
         lock_params.add("qpd_zcenter", params.ParameterRangeFloat("Piezo center position in microns",
                                                                   "qpd_zcenter",
-                                                                  125.0, 0.0, 250.0))
+                                                                  50.0, 0.0, 100.0))
         lock_params.add("qpd_scale", params.ParameterRangeFloat("Offset to nm calibration value",
                                                                 "qpd_scale",
-                                                                45.0, 0.1, 1000.0))
+                                                                500.0, 0.1, 1000.0))
         lock_params.add("qpd_sum_min", 50.0)
         lock_params.add("qpd_sum_max", 256.0)
-        lock_params.add("is_locked_buffer_length", 10)
-        lock_params.add("is_locked_offset_thresh", 0.01)
+
+        lock_params.add("is_locked_buffer_length", params.ParameterRangeInt("Length of in focus buffer",
+                                                                "is_locked_buffer_length",
+                                                                3, 1, 100))
+        lock_params.add("is_locked_offset_thresh", params.ParameterRangeFloat("Offset distance still considered in focus",
+                                                                "is_locked_offset_thresh",
+                                                                1, 0.001, 1000))
+
         lock_params.add("ir_power", params.ParameterInt("", "ir_power", 6, is_mutable = False))
 
         # STORM2 Initialization.
         cam = uc480Cam.CameraQPD(camera_id = 1,
-                                 x_width = 452,
-                                 y_width = 80,
+                                 x_width = 700,
+                                 y_width = 70,
+                                 sigma = 13.0,
                                  offset_file = "cam_offsets_sperry_1.txt")
 
-        stage = MCLVZC.MCLVZControl("PCIe-6323", 0)
-        lock_fn = lambda (x): 0.07 * x
+        stage = MCLVZC.MCLVZControl("PCIe-6323", 2)
+        lock_fn = lambda (x): 0.04 * x
+        #lock_fn = lambda (x): -0.03 * x
         control_thread = stageOffsetControl.StageCamThread(cam,
                                                            stage,
                                                            lock_fn,
@@ -59,7 +67,7 @@ class AFocusLockZ(focusLockZ.FocusLockZCam):
                                                            parameters.get("focuslock.qpd_zcenter"),
                                                            parameters.get("focuslock.is_locked_buffer_length", 10),
                                                            parameters.get("focuslock.is_locked_offset_thresh", 0.01))
-        ir_laser = LDC210.LDC210PWMNI("PCIe-6323", 0)
+        ir_laser = LDC210.LDC210PWMNI("PCIe-6323", 2)
         focusLockZ.FocusLockZCam.__init__(self,
                                           parameters,
                                           control_thread,

@@ -128,7 +128,7 @@ class AOTF(object):
     #
     def _sendCmd(self, cmd):
         self._aotfSendCmd(cmd)
-       # print cmd
+        #print cmd + str(" :command sent to the AOTF")
         response = self._aotfGetResp()
         bad_response = "Invalid"
         if response[0:len(bad_response)] == bad_response:
@@ -197,6 +197,7 @@ class AOTF(object):
     #
     def reset(self):
         self._sendCmd("dds Reset")
+    
 
     ## setAmplitude
     #
@@ -330,7 +331,7 @@ class AOTF64Bit(AOTF):
     def _sendCmd(self, cmd):
         if self.live:
             self.aotf_conn.sendall(cmd)
-            #print cmd + "<----AOTF 64 bit command"
+            #print cmd + "<----AOTF 64 bit command "
             resp = self.aotf_conn.recv(1024)
             return resp
 

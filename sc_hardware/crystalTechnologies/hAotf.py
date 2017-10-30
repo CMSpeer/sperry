@@ -105,7 +105,7 @@ class CrystalTechAOTF(illuminationHardware.BufferedAmplitudeModulation):
         if self.working:
 
             if self.use_fsk:
-                frequencies = [off_frequency, on_frequency, off_frequency, on_frequency]
+                frequencies = [off_frequency, on_frequency, off_frequency, off_frequency]
             else:
                 frequencies = [on_frequency, off_frequency, off_frequency, off_frequency]
             #print frequencies

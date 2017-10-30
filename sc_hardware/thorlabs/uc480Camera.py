@@ -412,7 +412,7 @@ class Camera(Handle):
     #
     # @param pixel_clock_MHz (Optional) The desired pixel clock speed in MHz, defaults to 30.
     #
-    def setPixelClock(self, pixel_clock_MHz = 10):
+    def setPixelClock(self, pixel_clock_MHz = 15):
         check(uc480.is_SetPixelClock(self,
                                      ctypes.c_int(pixel_clock_MHz)))
 

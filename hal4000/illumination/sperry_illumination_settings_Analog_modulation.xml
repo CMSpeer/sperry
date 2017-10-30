@@ -17,7 +17,7 @@
       <module_name>sc_hardware.coherent.hLaser</module_name>
       <class_name>CoherentObis</class_name>
       <parameters>
-	<port>COM24</port>
+	<port>COM22</port>
       </parameters>
     </control_module>
 
@@ -45,10 +45,10 @@
 	<uses>AOTF</uses>
 	<display_normalized type="boolean">True</display_normalized>
 	<parameters>
-	  <maximum type="int">6500</maximum>
+	  <maximum type="int">6600</maximum>
 	  <channel type="int">0</channel>
 	  <off_frequency type="float">20.0</off_frequency>
-	  <on_frequency type="float">76.2330</on_frequency>
+	  <on_frequency type="float">76.213</on_frequency>
 	</parameters>
       </amplitude_modulation>
 
@@ -71,10 +71,10 @@
 	<uses>AOTF</uses>
 	<display_normalized type="boolean">True</display_normalized>
 	<parameters>
-	  <maximum type="int">5700</maximum>
+	  <maximum type="int">5400</maximum>
 	  <channel type="int">1</channel>
 	  <off_frequency type="float">20</off_frequency>
-	  <on_frequency type="float">90.8310</on_frequency>
+	  <on_frequency type="float">90.791</on_frequency>
 	</parameters>
       </amplitude_modulation>
       
@@ -97,10 +97,10 @@
 	<uses>AOTF</uses>
 	<display_normalized type="boolean">True</display_normalized>
 	<parameters>
-	  <maximum type="int">4800</maximum>
+	  <maximum type="int">4600</maximum>
 	  <channel type="int">2</channel>
 	  <off_frequency type="float">20.0</off_frequency>
-	  <on_frequency type="float">108.7920</on_frequency>
+	  <on_frequency type="float">108.772</on_frequency>
 	</parameters>
       </amplitude_modulation>
 
@@ -126,7 +126,7 @@
 	  <maximum type="int">5200</maximum>
 	  <channel type="int">3</channel>
 	  <off_frequency type="float">20.0</off_frequency>
-	  <on_frequency type="float">131.093</on_frequency>
+	  <on_frequency type="float">131.073</on_frequency>
 	</parameters>
       </amplitude_modulation>
       
